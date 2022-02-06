@@ -25,12 +25,20 @@ public class User {
     private Long id;
 
     @NotNull
-    @Column(name = "kakao_token")
-    private String kakaoToken;
+    @Column(name = "token")
+    private String token;
 
     @NotNull
     @Column(name = "contract_account_hex")
     private String contractAccountHex;
+
+    @NotNull
+    @Column(name = "name")
+    private String name;
+
+    @NotNull
+    @Column(name = "klay")
+    private Long klay;
 
     @OneToMany(targetEntity = Ownership.class, fetch = FetchType.LAZY)
     @JoinColumn(name = "owner_id")

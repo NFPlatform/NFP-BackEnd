@@ -13,7 +13,7 @@ import javax.validation.constraints.NotNull;
 )
 @Getter
 @Setter
-@Builder()
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class Auction {
@@ -30,7 +30,7 @@ public class Auction {
 
     @ManyToOne(targetEntity = User.class, fetch = FetchType.LAZY)
     @JoinColumn(name = "seller_id")
-    private User user;
+    private User seller;
 
     @NotNull
     @Column(name = "klay")
@@ -54,4 +54,8 @@ public class Auction {
     @NotNull
     @Column(name = "status")
     private String status;
+
+    @ManyToOne(targetEntity = Category.class, fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id")
+    private Category category;
 }

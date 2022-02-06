@@ -14,7 +14,7 @@ import java.util.List;
 )
 @Getter
 @Setter
-@Builder()
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class Artist {
