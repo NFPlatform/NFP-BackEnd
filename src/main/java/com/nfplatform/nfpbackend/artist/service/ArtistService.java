@@ -24,8 +24,6 @@ public class ArtistService {
                 .collect(Collectors.toList());
     }
 
-    public
-
     @Transactional
     public void voteToArtist(ArtistDTO.VoteRequest voteRequest) throws Exception {
         long artistId = voteRequest.getArtistId();
