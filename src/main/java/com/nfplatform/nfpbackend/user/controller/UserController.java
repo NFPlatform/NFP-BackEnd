@@ -1,6 +1,8 @@
 package com.nfplatform.nfpbackend.user.controller;
 
+import com.nfplatform.nfpbackend.security.annotation.ParseUser;
 import com.nfplatform.nfpbackend.user.controller.dto.UserDTO;
+import com.nfplatform.nfpbackend.user.repository.entity.User;
 import com.nfplatform.nfpbackend.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +25,11 @@ public class UserController {
     @PostMapping("/register")
     public void register(UserDTO.RegisterRequest registerRequest) throws Exception {
         userService.register(registerRequest);
+    }
+
+    @GetMapping("/info")
+    public UserDTO.UserInfo getUserInfo(@ParseUser User user) throws Exception {
+        return userService.getUserInfo(user);
     }
 
     @GetMapping("/top")

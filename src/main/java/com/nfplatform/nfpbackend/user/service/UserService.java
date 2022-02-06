@@ -1,6 +1,6 @@
 package com.nfplatform.nfpbackend.user.service;
 
-import com.nfplatform.nfpbackend.piece.service.PieceService;
+import com.nfplatform.nfpbackend.artist.repository.ArtistRepository;
 import com.nfplatform.nfpbackend.user.controller.dto.UserDTO;
 import com.nfplatform.nfpbackend.user.model.UserMapper;
 import com.nfplatform.nfpbackend.user.repository.UserRepository;
@@ -29,6 +29,7 @@ public class UserService {
     private static final String BASE_PATH = "/var/lib/nfplatform/user";
 
     private final UserRepository userRepository;
+    private final ArtistRepository artistRepository;
 
     @Transactional
     public void register(UserDTO.RegisterRequest registerRequest) throws Exception {
@@ -59,6 +60,19 @@ public class UserService {
             return new ResponseEntity<>(headers, HttpStatus.SEE_OTHER);
         }
 
+    }
+
+    public UserDTO.UserInfo getUserInfo(User user) throws Exception {
+        UserDTO.UserInfo userInfo = UserDTO.UserInfo.builder()
+                .id(user.getId())
+                .isArtist(false)
+                .build();
+
+        if (artistRepository.findByUserEquals(user).isPresent()) {
+            userInfo.setArtist(true);
+        }
+
+        return userInfo;
     }
 
     public User getUserFromToken(String token) throws Exception {

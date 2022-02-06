@@ -36,4 +36,14 @@ public class UserDTO {
         private Long klay;
     }
 
+    @Setter
+    @Getter
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class UserInfo {
+        private Long id;
+        private boolean isArtist;
+    }
+
 }
