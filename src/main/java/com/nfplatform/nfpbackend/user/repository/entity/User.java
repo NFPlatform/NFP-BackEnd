@@ -19,16 +19,18 @@ import java.util.List;
 public class User {
 
     @Id
-    @NotNull
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
     @NotNull
+    @Column(name = "kakao_id")
+    private Long kakaoId;
+
+    @NotNull
     @Column(name = "token")
     private String token;
 
-    @NotNull
     @Column(name = "contract_account_hex")
     private String contractAccountHex;
 

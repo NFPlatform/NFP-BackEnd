@@ -1,7 +1,7 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mariadb://127.0.0.1:3306/nfplatform?serverTimezone=Asia/Seoul
+    url: jdbc:mysql://127.0.0.1:3306/nfplatform?serverTimezone=Asia/Seoul
     username: root
     password: flatron123!
 

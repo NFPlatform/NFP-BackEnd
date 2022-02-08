@@ -8,6 +8,7 @@ import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByTokenEquals(String token);
+    Optional<User> findByKakaoIdEquals(Long kakoId);
 
     List<User> findTop15ByOrderByKlayDesc();
 

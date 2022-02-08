@@ -1,6 +1,7 @@
 package com.nfplatform.nfpbackend.user.service;
 
 import com.nfplatform.nfpbackend.artist.repository.ArtistRepository;
+import com.nfplatform.nfpbackend.user.controller.dto.KakaoDTO;
 import com.nfplatform.nfpbackend.user.controller.dto.UserDTO;
 import com.nfplatform.nfpbackend.user.model.UserMapper;
 import com.nfplatform.nfpbackend.user.repository.UserRepository;
@@ -31,6 +32,8 @@ public class UserService {
     private final UserRepository userRepository;
     private final ArtistRepository artistRepository;
 
+    private final KakaoService kakaoService;
+
     @Transactional
     public void register(UserDTO.RegisterRequest registerRequest) throws Exception {
         Optional<User> optionalUser = userRepository.findByTokenEquals(registerRequest.getToken());
@@ -49,17 +52,26 @@ public class UserService {
     }
 
     @Transactional
-    public ResponseEntity<?> login(UserDTO.LoginRequest loginRequest) throws Exception {
+    public void login(UserDTO.LoginRequest loginRequest) throws Exception {
         Optional<User> optionalUser = userRepository.findByTokenEquals(loginRequest.getToken());
-        if (optionalUser.isPresent()) {
-            return ResponseEntity.ok("OK");
-        } else {
-            URI redirectURI = new URI("http://localhost:8080/register");
-            HttpHeaders headers = new HttpHeaders();
-            headers.setLocation(redirectURI);
-            return new ResponseEntity<>(headers, HttpStatus.SEE_OTHER);
+        User user;
+        if (!optionalUser.isPresent()) {
+            KakaoDTO.GetAccessTokenResponse getAccessTokenResponse = kakaoService.getToken(loginRequest.getToken());
+            KakaoDTO.GetKakaoUserResponse getKakaoUserResponse = kakaoService.getUserInfo(getAccessTokenResponse.getAccess_token());
+            Optional<User> optionalUser2 = userRepository.findByKakaoIdEquals(getKakaoUserResponse.getId());
+            if (optionalUser2.isPresent()) {
+                user = optionalUser2.get();
+                user.setToken(loginRequest.getToken());
+            } else {
+                user = User.builder()
+                        .kakaoId(getKakaoUserResponse.getId())
+                        .token(loginRequest.getToken())
+                        .name("Unknown")
+                        .klay(0L)
+                        .build();
+            }
+            userRepository.save(user);
         }
-
     }
 
     public UserDTO.UserInfo getUserInfo(User user) throws Exception {
