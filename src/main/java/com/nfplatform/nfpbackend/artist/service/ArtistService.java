@@ -4,6 +4,7 @@ import com.nfplatform.nfpbackend.artist.controller.dto.ArtistDTO;
 import com.nfplatform.nfpbackend.artist.model.ArtistMapper;
 import com.nfplatform.nfpbackend.artist.repository.ArtistRepository;
 import com.nfplatform.nfpbackend.artist.repository.entity.Artist;
+import com.nfplatform.nfpbackend.user.repository.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -39,6 +40,20 @@ public class ArtistService {
         Artist artist = artistRepository.findById(artistId).orElseThrow(Exception::new);
 
         artist.setVote(artist.getVote() - 1);
+        artistRepository.save(artist);
+    }
+
+    public void registerArtist(User user, ArtistDTO.Register registerRequest) throws Exception {
+        Artist artist = Artist.builder()
+                .name(registerRequest.getName())
+                .user(user)
+                .vote(0L)
+                .bio(registerRequest.getBio())
+                .instagram(registerRequest.getInstagramId())
+                .pieceCount(0L)
+                .maxPiecePrice(0L)
+                .totalPiecePrice(0L)
+                .build();
         artistRepository.save(artist);
     }
 

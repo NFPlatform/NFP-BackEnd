@@ -13,7 +13,6 @@ public class ArtistDTO {
     public static class OverAll {
         private Long id;
         private String name;
-        private String thumbnailImg;
         private Long nfpToken;
         private Long vote;
     }
@@ -45,5 +44,16 @@ public class ArtistDTO {
         private Long pieceCount;
         private Long maxPiecePrice;
         private Long totalPiecePrice;
+    }
+
+    @Setter
+    @Getter
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class Register {
+        private String name;
+        private String instagramId;
+        private String bio;
     }
 }

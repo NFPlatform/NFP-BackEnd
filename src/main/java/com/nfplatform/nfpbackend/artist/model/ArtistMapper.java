@@ -9,8 +9,7 @@ public class ArtistMapper {
         return ArtistDTO.OverAll.builder()
                 .id(artist.getId())
                 .name(artist.getName())
-                .thumbnailImg(artist.getThumbnailImg())
-                .nfpToken(artist.getNfpToken())
+                .nfpToken(artist.getUser().getKlay())
                 .vote(artist.getVote())
                 .build();
     }
@@ -19,8 +18,7 @@ public class ArtistMapper {
         return ArtistDTO.Detail.builder()
                 .id(artist.getId())
                 .name(artist.getName())
-                .thumbnailImg(artist.getThumbnailImg())
-                .nfpToken(artist.getNfpToken())
+                .nfpToken(artist.getUser().getKlay())
                 .vote(artist.getVote())
                 .bio(artist.getBio())
                 .instagramSrc(artist.getInstagram())

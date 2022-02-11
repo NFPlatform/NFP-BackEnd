@@ -20,7 +20,6 @@ import java.util.List;
 public class Artist {
 
     @Id
-    @NotNull
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
@@ -32,14 +31,6 @@ public class Artist {
     @NotNull
     @Column(name = "name")
     private String name;
-
-    @NotNull
-    @Column(name = "thumbnail_img")
-    private String thumbnailImg;
-
-    @NotNull
-    @Column(name = "nfp_token")
-    private Long nfpToken;
 
     @NotNull
     @Column(name = "vote")
