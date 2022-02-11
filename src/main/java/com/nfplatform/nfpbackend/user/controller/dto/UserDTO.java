@@ -43,6 +43,7 @@ public class UserDTO {
     @AllArgsConstructor
     public static class UserInfo {
         private Long id;
+        private String name;
         private boolean isArtist;
     }
 

@@ -7,6 +7,7 @@ import com.nfplatform.nfpbackend.user.model.UserMapper;
 import com.nfplatform.nfpbackend.user.repository.UserRepository;
 import com.nfplatform.nfpbackend.user.repository.entity.User;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -15,7 +16,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -77,6 +77,7 @@ public class UserService {
     public UserDTO.UserInfo getUserInfo(User user) throws Exception {
         UserDTO.UserInfo userInfo = UserDTO.UserInfo.builder()
                 .id(user.getId())
+                .name(user.getName())
                 .isArtist(false)
                 .build();
 
@@ -100,17 +101,24 @@ public class UserService {
     }
 
     public ResponseEntity<?> getUserImg(Long userId) throws Exception {
-        if (userRepository.existsById(userId) == false) {
-            throw new Exception();
+        User user = userRepository.findById(userId).orElseThrow(Exception::new);
+
+        if (!user.isSetImg()) {
+            ClassPathResource classPathResource = new ClassPathResource("nfp_logo.png");
+            Resource resource = new InputStreamResource(classPathResource.getInputStream());
+
+            HttpHeaders headers = new HttpHeaders();
+
+            return new ResponseEntity<>(resource, headers, HttpStatus.OK);
+        } else {
+            Path piecePath = Paths.get(UserService.BASE_PATH + "/" + userId);
+            String contentType = Files.probeContentType(piecePath);
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.add(HttpHeaders.CONTENT_TYPE, contentType);
+
+            Resource resource = new InputStreamResource(Files.newInputStream(piecePath));
+            return new ResponseEntity<>(resource, headers, HttpStatus.OK);
         }
-
-        Path piecePath = Paths.get(UserService.BASE_PATH + "/" + userId);
-        String contentType = Files.probeContentType(piecePath);
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.add(HttpHeaders.CONTENT_TYPE, contentType);
-
-        Resource resource = new InputStreamResource(Files.newInputStream(piecePath));
-        return new ResponseEntity<>(resource, headers, HttpStatus.OK);
     }
 }

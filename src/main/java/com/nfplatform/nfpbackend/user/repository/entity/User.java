@@ -42,6 +42,10 @@ public class User {
     @Column(name = "klay")
     private Long klay;
 
+    @NotNull
+    @Column(name = "set_img")
+    private boolean setImg;
+
     @OneToMany(targetEntity = Ownership.class, fetch = FetchType.LAZY)
     @JoinColumn(name = "owner_id")
     private List<Ownership> ownershipList;
