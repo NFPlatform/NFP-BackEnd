@@ -15,4 +15,6 @@ public interface ArtistRepository extends JpaRepository<Artist, Long> {
     @EntityGraph(attributePaths = {"user"})
     Optional<Artist> findByUserEquals(User user);
 
+    Optional<Artist> findFirstByOrderByVoteDesc();
+
 }

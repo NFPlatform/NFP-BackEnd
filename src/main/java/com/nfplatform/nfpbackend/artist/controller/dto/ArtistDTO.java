@@ -10,6 +10,16 @@ public class ArtistDTO {
     @Builder
     @NoArgsConstructor
     @AllArgsConstructor
+    public static class Popular {
+        private Long id;
+        private String name;
+    }
+
+    @Setter
+    @Getter
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
     public static class OverAll {
         private Long id;
         private String name;

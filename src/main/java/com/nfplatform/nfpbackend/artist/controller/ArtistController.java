@@ -17,6 +17,11 @@ public class ArtistController {
 
     private final ArtistService artistService;
 
+    @GetMapping("/top")
+    public ArtistDTO.Popular getTopArtist() throws Exception {
+        return artistService.getPopularArtist();
+    }
+
     @GetMapping("/popular")
     public List<ArtistDTO.OverAll> getPopularArtists() throws Exception {
         return artistService.getPopularArtists();

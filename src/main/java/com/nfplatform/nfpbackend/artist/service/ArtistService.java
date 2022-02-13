@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -17,6 +18,22 @@ import java.util.stream.Collectors;
 public class ArtistService {
 
     private final ArtistRepository artistRepository;
+
+    public ArtistDTO.Popular getPopularArtist() {
+        Optional<Artist> optionalArtist = artistRepository.findFirstByOrderByVoteDesc();
+        if (optionalArtist.isPresent()) {
+            Artist artist = optionalArtist.get();
+            return ArtistDTO.Popular.builder()
+                    .id(artist.getId())
+                    .name(artist.getName())
+                    .build();
+        } else {
+            return ArtistDTO.Popular.builder()
+                    .id(-1L)
+                    .name("-")
+                    .build();
+        }
+    }
 
     public List<ArtistDTO.OverAll> getPopularArtists() {
         List<Artist> artistList = artistRepository.findTop10ByOrderByVoteDesc();
