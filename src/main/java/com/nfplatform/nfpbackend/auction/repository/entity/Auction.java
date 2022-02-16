@@ -19,7 +19,6 @@ import javax.validation.constraints.NotNull;
 public class Auction {
 
     @Id
-    @NotNull
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;

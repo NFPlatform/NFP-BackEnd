@@ -1,6 +1,11 @@
 package com.nfplatform.nfpbackend.user.service;
 
 import com.nfplatform.nfpbackend.artist.repository.ArtistRepository;
+import com.nfplatform.nfpbackend.auction.AuctionStatus;
+import com.nfplatform.nfpbackend.auction.controller.dto.AuctionDTO;
+import com.nfplatform.nfpbackend.auction.model.AuctionMapper;
+import com.nfplatform.nfpbackend.auction.repository.AuctionRepository;
+import com.nfplatform.nfpbackend.auction.repository.entity.Auction;
 import com.nfplatform.nfpbackend.user.controller.dto.KakaoDTO;
 import com.nfplatform.nfpbackend.user.controller.dto.UserDTO;
 import com.nfplatform.nfpbackend.user.model.UserMapper;
@@ -19,6 +24,7 @@ import javax.transaction.Transactional;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -31,6 +37,7 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final ArtistRepository artistRepository;
+    private final AuctionRepository auctionRepository;
 
     private final KakaoService kakaoService;
 
@@ -120,5 +127,13 @@ public class UserService {
             Resource resource = new InputStreamResource(Files.newInputStream(piecePath));
             return new ResponseEntity<>(resource, headers, HttpStatus.OK);
         }
+    }
+
+    public List<AuctionDTO.Detail> getMyPieces(User user) throws Exception {
+        List<Auction> auctionList = auctionRepository.findByStatusEqualsAndSellerEquals(AuctionStatus.SELL.toString(), user);
+
+        return auctionList.stream()
+                .map(AuctionMapper::entityToDetail)
+                .collect(Collectors.toList());
     }
 }

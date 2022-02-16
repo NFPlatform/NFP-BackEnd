@@ -73,3 +73,10 @@ CREATE TABLE `user` (
                         `set_img` tinyint(1) NOT NULL DEFAULT '0',
                         PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+
+insert into category values (1, 'art');
+insert into category values (2, 'music');
+insert into category values (3, 'fashion');
+insert into category values (4, 'architect');
+insert into category values (5, 'movie');

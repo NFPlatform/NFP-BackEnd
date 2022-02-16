@@ -9,6 +9,7 @@ import com.nfplatform.nfpbackend.auction.repository.OwnershipRepository;
 import com.nfplatform.nfpbackend.auction.repository.entity.Auction;
 import com.nfplatform.nfpbackend.auction.repository.entity.Category;
 import com.nfplatform.nfpbackend.auction.repository.entity.Ownership;
+import com.nfplatform.nfpbackend.piece.controller.dto.PieceDTO;
 import com.nfplatform.nfpbackend.piece.repository.PieceRepository;
 import com.nfplatform.nfpbackend.piece.repository.entity.Piece;
 import com.nfplatform.nfpbackend.user.repository.entity.User;
@@ -25,6 +26,7 @@ import javax.transaction.Transactional;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -40,19 +42,20 @@ public class PieceService {
 
 
     @Transactional
-    public void uploadPiece(User user, MultipartFile img, String categoryName, long klay,
-                            String title, String bio, String subLink, String contractHex) throws Exception {
+    public PieceDTO.RegisterResponse uploadPiece(User user, MultipartFile img, PieceDTO.RegisterRequest registerRequest) throws Exception {
 
         Artist artist = artistRepository.findByUserEquals(user)
                 .orElseThrow(Exception::new);
-        Category category = categoryRepository.findByNameEquals(categoryName)
+        Category category = categoryRepository.findByNameEquals(registerRequest.getCategory())
                 .orElseThrow(Exception::new);
 
         Piece newPiece = Piece.builder()
-                .contractHex(contractHex)
+                .contractHex(registerRequest.getContractHex())
                 .artist(artist)
                 .vote(0L)
                 .build();
+
+        newPiece = pieceRepository.save(newPiece);
 
         Ownership ownership = Ownership.builder()
                 .owner(user)
@@ -62,22 +65,24 @@ public class PieceService {
         Auction auction = Auction.builder()
                 .piece(newPiece)
                 .seller(user)
-                .klay(klay)
+                .klay(registerRequest.getKlay())
                 .nfpt(0L)
-                .title(title)
-                .bio(bio)
-                .subLink(subLink)
+                .title(registerRequest.getTitle())
+                .bio(registerRequest.getBio())
+                .subLink(registerRequest.getSubLink())
                 .status(AuctionStatus.SELL.toString())
                 .category(category)
                 .build();
 
-        newPiece = pieceRepository.save(newPiece);
         ownershipRepository.save(ownership);
         auctionRepository.save(auction);
 
         String piecePath = PieceService.BASE_PATH + "/" + newPiece.getId();
         img.transferTo(Paths.get(piecePath));
 
+        return PieceDTO.RegisterResponse.builder()
+                .pieceId(newPiece.getId())
+                .build();
     }
 
     public ResponseEntity<?> getPieceImg(Long pieceId) throws Exception {

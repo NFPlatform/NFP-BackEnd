@@ -18,7 +18,6 @@ import javax.validation.constraints.NotNull;
 public class Piece {
 
     @Id
-    @NotNull
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;

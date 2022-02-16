@@ -1,5 +1,6 @@
 package com.nfplatform.nfpbackend.piece.controller;
 
+import com.nfplatform.nfpbackend.piece.controller.dto.PieceDTO;
 import com.nfplatform.nfpbackend.piece.service.PieceService;
 import com.nfplatform.nfpbackend.security.annotation.ParseUser;
 import com.nfplatform.nfpbackend.user.repository.entity.User;
@@ -15,16 +16,11 @@ public class PieceController {
 
     private final PieceService pieceService;
 
-    @PostMapping("/upload")
-    public void uploadPiece(@ParseUser User user,
+    @PostMapping("/register")
+    public PieceDTO.RegisterResponse uploadPiece(@ParseUser User user,
                             @RequestPart("img") MultipartFile img,
-                            @RequestPart("category") String category,
-                            @RequestPart("klay") long klay,
-                            @RequestPart("title") String title,
-                            @RequestPart("bio") String bio,
-                            @RequestPart("subLink") String subLink,
-                            @RequestPart("contractHex") String contractHex) throws Exception {
-        pieceService.uploadPiece(user, img, category, klay, title, bio, subLink, contractHex);
+                            @RequestPart("registerForm") PieceDTO.RegisterRequest registerRequest) throws Exception {
+        return pieceService.uploadPiece(user, img, registerRequest);
     }
 
     @GetMapping("/{pieceId}/img")

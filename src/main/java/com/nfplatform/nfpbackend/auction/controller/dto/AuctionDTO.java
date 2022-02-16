@@ -14,7 +14,7 @@ public class AuctionDTO {
         private Long id;
         private String name;
         private Piece piece;
-        private UserBadge owner;
+        private UserBadge seller;
         private Long klay;
         private Long nfpToken;
     }
