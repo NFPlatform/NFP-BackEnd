@@ -9,6 +9,7 @@ import com.nfplatform.nfpbackend.auction.repository.OwnershipRepository;
 import com.nfplatform.nfpbackend.auction.repository.entity.Auction;
 import com.nfplatform.nfpbackend.auction.repository.entity.Category;
 import com.nfplatform.nfpbackend.auction.repository.entity.Ownership;
+import com.nfplatform.nfpbackend.piece.repository.PieceRepository;
 import com.nfplatform.nfpbackend.piece.repository.entity.Piece;
 import com.nfplatform.nfpbackend.user.repository.entity.User;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +27,7 @@ public class AuctionService {
     private final OwnershipRepository ownershipRepository;
     private final AuctionRepository auctionRepository;
     private final CategoryRepository categoryRepository;
+    private final PieceRepository pieceRepository;
 
     public List<AuctionDTO.Detail> getAuctionList(String categoryName, Sort sort) throws Exception {
         List<Auction> auctionList;
@@ -34,7 +36,7 @@ public class AuctionService {
         } else {
             Category category = categoryRepository.findByNameEquals(categoryName)
                     .orElseThrow(Exception::new);
-            auctionList = auctionRepository.findByStatusEqualsAndCategoryEquals(AuctionStatus.SELL.toString(), category, sort);
+            auctionList = auctionRepository.findByStatusEqualsAndPiece_CategoryEquals(AuctionStatus.SELL.toString(), category, sort);
         }
 
         return auctionList.stream()
@@ -59,6 +61,10 @@ public class AuctionService {
         }
 
         Piece piece = auction.getPiece();
+        if (piece.getState().equals("Owned")) {
+            throw new Exception();
+        }
+
         User seller = auction.getSeller();
 
         Ownership sellerOwnership = ownershipRepository.findByPieceEqualsAndOwnerEquals(piece, seller)
@@ -68,6 +74,9 @@ public class AuctionService {
                 .piece(piece)
                 .owner(user)
                 .build();
+
+        piece.setState("Owned");
+        pieceRepository.save(piece);
 
         ownershipRepository.delete(sellerOwnership);
         ownershipRepository.save(newOwnership);

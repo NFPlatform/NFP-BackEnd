@@ -1,5 +1,6 @@
 package com.nfplatform.nfpbackend.auction.controller.dto;
 
+import com.nfplatform.nfpbackend.piece.controller.dto.PieceDTO;
 import lombok.*;
 
 @AllArgsConstructor
@@ -12,8 +13,7 @@ public class AuctionDTO {
     @AllArgsConstructor
     public static class Detail {
         private Long id;
-        private String name;
-        private Piece piece;
+        private PieceDTO.Detail piece;
         private UserBadge seller;
         private Long klay;
         private Long nfpToken;

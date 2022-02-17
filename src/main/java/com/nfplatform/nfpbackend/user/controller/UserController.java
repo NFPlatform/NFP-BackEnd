@@ -1,6 +1,7 @@
 package com.nfplatform.nfpbackend.user.controller;
 
 import com.nfplatform.nfpbackend.auction.controller.dto.AuctionDTO;
+import com.nfplatform.nfpbackend.piece.controller.dto.PieceDTO;
 import com.nfplatform.nfpbackend.security.annotation.ParseUser;
 import com.nfplatform.nfpbackend.user.controller.dto.UserDTO;
 import com.nfplatform.nfpbackend.user.repository.entity.User;
@@ -43,8 +44,13 @@ public class UserController {
         return userService.getUserImg(userId);
     }
 
-    @GetMapping("/piece")
-    public List<AuctionDTO.Detail> getMyPieces(@ParseUser User user) throws Exception {
-        return userService.getMyPieces(user);
+    @GetMapping("/piece/sell")
+    public List<AuctionDTO.Detail> getMySellingPieces(@ParseUser User user) throws Exception {
+        return userService.getMySellingPieces(user);
+    }
+
+    @GetMapping("/piece/owned")
+    public List<PieceDTO.Detail> getMyOwnedPieces(@ParseUser User user) throws Exception {
+        return userService.getMyOwnedPieces(user);
     }
 }

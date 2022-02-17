@@ -40,7 +40,6 @@ public class PieceService {
     private final OwnershipRepository ownershipRepository;
     private final AuctionRepository auctionRepository;
 
-
     @Transactional
     public PieceDTO.RegisterResponse uploadPiece(User user, MultipartFile img, PieceDTO.RegisterRequest registerRequest) throws Exception {
 
@@ -50,9 +49,13 @@ public class PieceService {
                 .orElseThrow(Exception::new);
 
         Piece newPiece = Piece.builder()
-                .contractHex(registerRequest.getContractHex())
                 .artist(artist)
                 .vote(0L)
+                .title(registerRequest.getTitle())
+                .bio(registerRequest.getBio())
+                .subLink(registerRequest.getBio())
+                .category(category)
+                .state("Owned")
                 .build();
 
         newPiece = pieceRepository.save(newPiece);
@@ -62,20 +65,7 @@ public class PieceService {
                 .piece(newPiece)
                 .build();
 
-        Auction auction = Auction.builder()
-                .piece(newPiece)
-                .seller(user)
-                .klay(registerRequest.getKlay())
-                .nfpt(0L)
-                .title(registerRequest.getTitle())
-                .bio(registerRequest.getBio())
-                .subLink(registerRequest.getSubLink())
-                .status(AuctionStatus.SELL.toString())
-                .category(category)
-                .build();
-
         ownershipRepository.save(ownership);
-        auctionRepository.save(auction);
 
         String piecePath = PieceService.BASE_PATH + "/" + newPiece.getId();
         img.transferTo(Paths.get(piecePath));
@@ -98,5 +88,27 @@ public class PieceService {
 
         Resource resource = new InputStreamResource(Files.newInputStream(piecePath));
         return new ResponseEntity<>(resource, headers, HttpStatus.OK);
+    }
+
+    public PieceDTO.SetToSellingRes setToSelling(User user, PieceDTO.SetToSellingReq setToSellingReq) throws Exception {
+        Piece piece = pieceRepository.findById(setToSellingReq.getPieceId())
+                .orElseThrow(Exception::new);
+
+        Auction auction = Auction.builder()
+                .piece(piece)
+                .seller(user)
+                .klay(setToSellingReq.getKlay())
+                .nfpt(0L)
+                .status("SELL")
+                .build();
+
+        piece.setState("Selling");
+
+        auction = auctionRepository.save(auction);
+        pieceRepository.save(piece);
+
+        return PieceDTO.SetToSellingRes.builder()
+                .auctionId(auction.getId())
+                .build();
     }
 }

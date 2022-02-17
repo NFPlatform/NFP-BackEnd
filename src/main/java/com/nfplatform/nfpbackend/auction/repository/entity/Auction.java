@@ -40,21 +40,6 @@ public class Auction {
     private Long nfpt;
 
     @NotNull
-    @Column(name = "title")
-    private String title;
-
-    @NotNull
-    @Column(name = "bio")
-    private String bio;
-
-    @Column(name = "sub_link")
-    private String subLink;
-
-    @NotNull
     @Column(name = "status")
     private String status;
-
-    @ManyToOne(targetEntity = Category.class, fetch = FetchType.LAZY)
-    @JoinColumn(name = "category_id")
-    private Category category;
 }

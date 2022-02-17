@@ -22,8 +22,7 @@ public interface AuctionRepository extends JpaRepository<Auction, Long> {
     List<Auction> findByStatusEquals(String status, Sort sort);
 
     @EntityGraph(attributePaths = {"piece", "seller", "piece.artist"})
-    @Query("select a from Auction a where a.status = ?1 and a.category = ?2")
-    List<Auction> findByStatusEqualsAndCategoryEquals(String status, Category category, Sort sort);
+    List<Auction> findByStatusEqualsAndPiece_CategoryEquals(String status, Category category, Sort sort);
 
     @EntityGraph(attributePaths = {"piece", "seller", "piece.artist"})
     List<Auction> findByStatusEqualsAndSellerEquals(String status, User seller);

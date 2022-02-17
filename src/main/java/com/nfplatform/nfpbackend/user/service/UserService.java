@@ -5,7 +5,13 @@ import com.nfplatform.nfpbackend.auction.AuctionStatus;
 import com.nfplatform.nfpbackend.auction.controller.dto.AuctionDTO;
 import com.nfplatform.nfpbackend.auction.model.AuctionMapper;
 import com.nfplatform.nfpbackend.auction.repository.AuctionRepository;
+import com.nfplatform.nfpbackend.auction.repository.OwnershipRepository;
 import com.nfplatform.nfpbackend.auction.repository.entity.Auction;
+import com.nfplatform.nfpbackend.auction.repository.entity.Ownership;
+import com.nfplatform.nfpbackend.piece.controller.dto.PieceDTO;
+import com.nfplatform.nfpbackend.piece.model.PieceMapper;
+import com.nfplatform.nfpbackend.piece.repository.PieceRepository;
+import com.nfplatform.nfpbackend.piece.repository.entity.Piece;
 import com.nfplatform.nfpbackend.user.controller.dto.KakaoDTO;
 import com.nfplatform.nfpbackend.user.controller.dto.UserDTO;
 import com.nfplatform.nfpbackend.user.model.UserMapper;
@@ -24,7 +30,6 @@ import javax.transaction.Transactional;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -38,6 +43,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final ArtistRepository artistRepository;
     private final AuctionRepository auctionRepository;
+    private final OwnershipRepository ownershipRepository;
 
     private final KakaoService kakaoService;
 
@@ -129,11 +135,22 @@ public class UserService {
         }
     }
 
-    public List<AuctionDTO.Detail> getMyPieces(User user) throws Exception {
+    public List<AuctionDTO.Detail> getMySellingPieces(User user) throws Exception {
         List<Auction> auctionList = auctionRepository.findByStatusEqualsAndSellerEquals(AuctionStatus.SELL.toString(), user);
 
         return auctionList.stream()
                 .map(AuctionMapper::entityToDetail)
+                .collect(Collectors.toList());
+    }
+
+    public List<PieceDTO.Detail> getMyOwnedPieces(User user) throws Exception {
+        List<Ownership> ownershipList = ownershipRepository.findByOwnerEqualsAndPiece_StateEquals(user, "Owned");
+        List<Piece> pieceList = ownershipList.stream()
+                .map(Ownership::getPiece)
+                .collect(Collectors.toList());
+
+        return pieceList.stream()
+                .map(PieceMapper::entityToDetail)
                 .collect(Collectors.toList());
     }
 }

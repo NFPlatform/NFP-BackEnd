@@ -27,4 +27,10 @@ public class PieceController {
     public ResponseEntity<?> getPieceImg(@PathVariable(value = "pieceId") Long pieceId) throws Exception {
         return pieceService.getPieceImg(pieceId);
     }
+
+    @PostMapping("/sell")
+    public PieceDTO.SetToSellingRes setToSelling(@ParseUser User user,
+                                                 @RequestBody PieceDTO.SetToSellingReq setToSellingReq) throws Exception {
+        return pieceService.setToSelling(user, setToSellingReq);
+    }
 }
