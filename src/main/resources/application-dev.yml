@@ -26,3 +26,6 @@ spring:
       hibernate:
         format_sql: true
         dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+
+kakao:
+  redirect: http://localhost:6040/oauth/

@@ -1,6 +1,7 @@
 package com.nfplatform.nfpbackend.user.service;
 
 import com.nfplatform.nfpbackend.user.controller.dto.KakaoDTO;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
@@ -13,7 +14,9 @@ public class KakaoService {
     private static final String kakaoOAuthHost = "https://kauth.kakao.com";
     private static final String kakaoAPIHost = "https://kapi.kakao.com";
     private static final String client_id = "be6a45435e2907dfcf8b40d27dd92ffd";
-    private static final String redirect_uri = "http://localhost:3000/oauth/";
+
+    @Value("${kakao.redirect}")
+    private String redirect_uri;
 
     public KakaoDTO.GetAccessTokenResponse getToken(String authorize_code) throws Exception {
 

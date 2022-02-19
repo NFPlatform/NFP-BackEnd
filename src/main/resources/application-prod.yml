@@ -26,3 +26,6 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+
+kakao:
+  redirect: https://www.nfplatform.com/oauth/
