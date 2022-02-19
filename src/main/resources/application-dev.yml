@@ -28,4 +28,4 @@ spring:
         dialect: org.hibernate.dialect.MySQL5InnoDBDialect
 
 kakao:
-  redirect: http://localhost:6040/oauth/
+  redirect: http://localhost:3000/oauth/
