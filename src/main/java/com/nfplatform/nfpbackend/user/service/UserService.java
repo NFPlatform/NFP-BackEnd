@@ -10,13 +10,13 @@ import com.nfplatform.nfpbackend.auction.repository.entity.Auction;
 import com.nfplatform.nfpbackend.auction.repository.entity.Ownership;
 import com.nfplatform.nfpbackend.piece.controller.dto.PieceDTO;
 import com.nfplatform.nfpbackend.piece.model.PieceMapper;
-import com.nfplatform.nfpbackend.piece.repository.PieceRepository;
 import com.nfplatform.nfpbackend.piece.repository.entity.Piece;
 import com.nfplatform.nfpbackend.user.controller.dto.KakaoDTO;
 import com.nfplatform.nfpbackend.user.controller.dto.UserDTO;
 import com.nfplatform.nfpbackend.user.model.UserMapper;
 import com.nfplatform.nfpbackend.user.repository.UserRepository;
 import com.nfplatform.nfpbackend.user.repository.entity.User;
+import com.nfplatform.nfpbackend.user.repository.entity.UserWithOwnerShipCount;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.InputStreamResource;
@@ -107,6 +107,11 @@ public class UserService {
     }
 
     public List<UserDTO.TopCollector> getTopCollector() throws Exception {
+//        List<UserWithOwnerShipCount> userList = userRepository.findByOrderByOwnershipListDesc();
+//        return userList.stream()
+//                .map(UserMapper::entityWithCountToTopCollector)
+//                .collect(Collectors.toList());
+
         List<User> userList = userRepository.findTop15ByOrderByKlayDesc();
         return userList.stream()
                 .map(UserMapper::entityToTopCollector)

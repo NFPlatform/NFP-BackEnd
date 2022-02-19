@@ -25,8 +25,9 @@ public class AuctionController {
     }
 
     @GetMapping("/{auctionId}")
-    public AuctionDTO.Detail getAuction(@PathVariable(value = "auctionId") Long auctionId) throws Exception {
-        return auctionService.getAuction(auctionId);
+    public AuctionDTO.Detail getAuction(@ParseUser User user,
+                                        @PathVariable(value = "auctionId") Long auctionId) throws Exception {
+        return auctionService.getAuction(user, auctionId);
     }
 
     @PostMapping("/{auctionId}/buy")

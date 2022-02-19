@@ -1,22 +1,19 @@
 package com.nfplatform.nfpbackend.user.repository.entity;
 
-import com.nfplatform.nfpbackend.auction.repository.entity.Ownership;
 import lombok.*;
+import org.springframework.data.annotation.Immutable;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.List;
 
 @Entity
-@Table(
-        name = "user"
-)
+@Immutable
 @Getter
 @Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
+public class UserWithOwnerShipCount {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -46,10 +43,10 @@ public class User {
     @Column(name = "set_img")
     private boolean setImg;
 
+    @NotNull
     @Column(name = "nftp")
     private Long nftp;
 
-    @OneToMany(targetEntity = Ownership.class, fetch = FetchType.LAZY)
-    @JoinColumn(name = "owner_id")
-    private List<Ownership> ownershipList;
+    @Column(name = "count_of_ownership")
+    private Integer countOfOwnership;
 }

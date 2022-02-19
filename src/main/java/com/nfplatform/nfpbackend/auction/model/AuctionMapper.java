@@ -16,6 +16,7 @@ public class AuctionMapper {
                         .build())
                 .klay(auction.getKlay())
                 .nfpToken(auction.getNfpt())
+                .isVote(false)
                 .build();
     }
 }

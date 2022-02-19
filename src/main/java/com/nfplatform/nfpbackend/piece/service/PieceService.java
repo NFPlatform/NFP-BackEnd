@@ -98,7 +98,7 @@ public class PieceService {
                 .piece(piece)
                 .seller(user)
                 .klay(setToSellingReq.getKlay())
-                .nfpt(0L)
+                .nfpt((long) (setToSellingReq.getKlay() * 0.05))
                 .status("SELL")
                 .build();
 

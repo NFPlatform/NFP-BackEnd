@@ -34,6 +34,7 @@ public class UserDTO {
         private Long id;
         private String name;
         private Long klay;
+        private int countOfPiece;
     }
 
     @Setter
