@@ -28,4 +28,4 @@ spring:
         dialect: org.hibernate.dialect.MySQL5InnoDBDialect
 
 kakao:
-  redirect: https://nfplatform.com/oauth/
+  redirect: https://www.nfplatform.com/oauth/
