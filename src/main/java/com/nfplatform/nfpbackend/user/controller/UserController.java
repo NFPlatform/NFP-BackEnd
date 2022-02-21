@@ -34,7 +34,7 @@ public class UserController {
     @GetMapping("/info")
     public ResponseEntity<?> getUserInfo(@ParseUser User user) throws Exception {
         if (user.getId() == -1) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("FORBIDDEN");
+            return ResponseEntity.ok("FORBIDDEN");
         }
         return ResponseEntity.ok(userService.getUserInfo(user));
     }
