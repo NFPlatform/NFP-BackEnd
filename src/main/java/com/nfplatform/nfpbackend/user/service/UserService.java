@@ -80,6 +80,7 @@ public class UserService {
                         .token(loginRequest.getToken())
                         .name("Unknown")
                         .klay(0L)
+                        .nftp(0L)
                         .build();
             }
             userRepository.save(user);
