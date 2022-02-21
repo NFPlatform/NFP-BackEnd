@@ -103,7 +103,7 @@ public class UserService {
 
     public User getUserFromToken(String token) throws Exception {
         return userRepository.findByTokenEquals(token)
-                .orElseThrow(Exception::new);
+                .orElse(User.builder().id(-1L).build());
     }
 
     public List<UserDTO.TopCollector> getTopCollector() throws Exception {

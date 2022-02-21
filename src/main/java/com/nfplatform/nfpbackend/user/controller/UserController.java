@@ -7,6 +7,8 @@ import com.nfplatform.nfpbackend.user.controller.dto.UserDTO;
 import com.nfplatform.nfpbackend.user.repository.entity.User;
 import com.nfplatform.nfpbackend.user.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,8 +32,11 @@ public class UserController {
     }
 
     @GetMapping("/info")
-    public UserDTO.UserInfo getUserInfo(@ParseUser User user) throws Exception {
-        return userService.getUserInfo(user);
+    public ResponseEntity<?> getUserInfo(@ParseUser User user) throws Exception {
+        if (user.getId() == -1) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("FORBIDDEN");
+        }
+        return ResponseEntity.ok(userService.getUserInfo(user));
     }
 
     @GetMapping("/top")
