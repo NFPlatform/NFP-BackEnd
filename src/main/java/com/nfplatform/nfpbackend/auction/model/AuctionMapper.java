@@ -9,6 +9,7 @@ public class AuctionMapper {
     public static AuctionDTO.Detail entityToDetail(Auction auction) {
         return AuctionDTO.Detail.builder()
                 .id(auction.getId())
+                .pieceId(auction.getPiece().getId())
                 .piece(PieceMapper.entityToDetail(auction.getPiece()))
                 .seller(AuctionDTO.UserBadge.builder()
                         .id(auction.getSeller().getId())

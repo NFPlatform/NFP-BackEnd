@@ -34,6 +34,7 @@ public class PieceDTO {
     @AllArgsConstructor
     public static class Detail {
         private Long id;
+        private Long pieceId;
         private String name;
         private AuctionDTO.UserBadge artist;
         private Long vote;

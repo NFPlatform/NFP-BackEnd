@@ -7,8 +7,6 @@ import com.nfplatform.nfpbackend.user.controller.dto.UserDTO;
 import com.nfplatform.nfpbackend.user.repository.entity.User;
 import com.nfplatform.nfpbackend.user.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -55,7 +53,7 @@ public class UserController {
     }
 
     @GetMapping("/piece/owned")
-    public List<AuctionDTO.Detail> getMyOwnedPieces(@ParseUser User user) throws Exception {
+    public List<PieceDTO.Detail> getMyOwnedPieces(@ParseUser User user) throws Exception {
         return userService.getMyOwnedPieces(user);
     }
 }

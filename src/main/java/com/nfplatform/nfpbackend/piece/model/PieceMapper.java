@@ -9,6 +9,7 @@ public class PieceMapper {
     public static PieceDTO.Detail entityToDetail(Piece piece) {
         return PieceDTO.Detail.builder()
                 .id(piece.getId())
+                .pieceId(piece.getId())
                 .name(piece.getTitle())
                 .artist(AuctionDTO.UserBadge.builder()
                         .id(piece.getArtist().getUser().getId())
@@ -18,13 +19,6 @@ public class PieceMapper {
                 .title(piece.getTitle())
                 .bio(piece.getBio())
                 .subLink(piece.getSubLink())
-                .build();
-    }
-
-    public static AuctionDTO.Detail entityToAuctionDetail(Piece piece) {
-        return AuctionDTO.Detail.builder()
-                .id(piece.getId())
-                .piece(PieceMapper.entityToDetail(piece))
                 .build();
     }
 }

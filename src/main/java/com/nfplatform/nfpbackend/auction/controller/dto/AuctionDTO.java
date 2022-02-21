@@ -13,6 +13,7 @@ public class AuctionDTO {
     @AllArgsConstructor
     public static class Detail {
         private Long id;
+        private Long pieceId;
         private PieceDTO.Detail piece;
         private UserBadge seller;
         private Long klay;
