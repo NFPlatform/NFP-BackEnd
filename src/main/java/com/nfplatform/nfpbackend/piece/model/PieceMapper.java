@@ -20,4 +20,11 @@ public class PieceMapper {
                 .subLink(piece.getSubLink())
                 .build();
     }
+
+    public static AuctionDTO.Detail entityToAuctionDetail(Piece piece) {
+        return AuctionDTO.Detail.builder()
+                .id(piece.getId())
+                .piece(PieceMapper.entityToDetail(piece))
+                .build();
+    }
 }

@@ -55,7 +55,7 @@ public class UserController {
     }
 
     @GetMapping("/piece/owned")
-    public List<PieceDTO.Detail> getMyOwnedPieces(@ParseUser User user) throws Exception {
+    public List<AuctionDTO.Detail> getMyOwnedPieces(@ParseUser User user) throws Exception {
         return userService.getMyOwnedPieces(user);
     }
 }

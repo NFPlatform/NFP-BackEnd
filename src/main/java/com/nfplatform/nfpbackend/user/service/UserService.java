@@ -148,14 +148,14 @@ public class UserService {
                 .collect(Collectors.toList());
     }
 
-    public List<PieceDTO.Detail> getMyOwnedPieces(User user) throws Exception {
+    public List<AuctionDTO.Detail> getMyOwnedPieces(User user) throws Exception {
         List<Ownership> ownershipList = ownershipRepository.findByOwnerEqualsAndPiece_StateEquals(user, "Owned");
         List<Piece> pieceList = ownershipList.stream()
                 .map(Ownership::getPiece)
                 .collect(Collectors.toList());
 
         return pieceList.stream()
-                .map(PieceMapper::entityToDetail)
+                .map(PieceMapper::entityToAuctionDetail)
                 .collect(Collectors.toList());
     }
 }
