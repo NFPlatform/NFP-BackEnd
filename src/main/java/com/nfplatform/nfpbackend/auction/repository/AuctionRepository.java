@@ -13,7 +13,7 @@ import java.util.Optional;
 
 public interface AuctionRepository extends JpaRepository<Auction, Long> {
 
-    @EntityGraph(attributePaths = {"piece", "seller", "piece.artist"})
+    @EntityGraph(attributePaths = {"piece", "seller", "piece.artist", "piece.artist.user"})
     @Query("select a from Auction a where a.id = ?1")
     Optional<Auction> findByIdEqualsWithPieceAndUser(Long id);
 

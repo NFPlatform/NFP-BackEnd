@@ -86,8 +86,6 @@ public class AuctionService {
         user.setNftp(user.getNftp() + nftp);
 
         User seller = auction.getSeller();
-        seller.setKlay(seller.getKlay() - klay);
-
         Ownership sellerOwnership = ownershipRepository.findByPieceEqualsAndOwnerEquals(piece, seller)
                 .orElseThrow(Exception::new);
 
@@ -106,6 +104,10 @@ public class AuctionService {
         auctionRepository.save(auction);
 
         userRepository.save(user);
-        userRepository.save(seller);
+
+        if (piece.getArtist().getUser().getId() != seller.getId()) {
+            seller.setKlay(seller.getKlay() - klay);
+            userRepository.save(seller);
+        }
     }
 }
