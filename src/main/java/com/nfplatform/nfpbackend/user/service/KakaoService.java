@@ -1,6 +1,8 @@
 package com.nfplatform.nfpbackend.user.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nfplatform.nfpbackend.user.controller.dto.KakaoDTO;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
@@ -8,6 +10,7 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
+@Slf4j
 @Component
 public class KakaoService {
 
@@ -25,6 +28,8 @@ public class KakaoService {
         map.add("client_id", client_id);
         map.add("redirect_uri", redirect_uri);
         map.add("code", authorize_code);
+
+        log.info(new ObjectMapper().writeValueAsString(map));
 
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
