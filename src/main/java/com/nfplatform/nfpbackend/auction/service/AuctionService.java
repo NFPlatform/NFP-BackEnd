@@ -75,18 +75,18 @@ public class AuctionService {
             throw new Exception();
         }
 
-//        if (auction.getSeller().getId() == user.getId()) {
-//            throw new Exception();
-//        }
+        if (auction.getSeller().getId() == user.getId()) {
+            throw new Exception();
+        }
 
         Long klay = auction.getKlay();
         Long nftp = (long) (klay * 0.05);
 
-        user.setKlay(user.getKlay() - klay);
+        user.setKlay(user.getKlay() + klay);
+        user.setNftp(user.getNftp() + nftp);
 
         User seller = auction.getSeller();
-        seller.setKlay(seller.getKlay() + klay);
-        seller.setNftp(seller.getNftp() + nftp);
+        seller.setKlay(seller.getKlay() - klay);
 
         Ownership sellerOwnership = ownershipRepository.findByPieceEqualsAndOwnerEquals(piece, seller)
                 .orElseThrow(Exception::new);

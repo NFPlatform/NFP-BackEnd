@@ -46,6 +46,7 @@ public class UserDTO {
     public static class UserInfo {
         private Long id;
         private String name;
+        private Long nfpt;
         private boolean isArtist;
     }
 

@@ -91,6 +91,7 @@ public class UserService {
         UserDTO.UserInfo userInfo = UserDTO.UserInfo.builder()
                 .id(user.getId())
                 .name(user.getName())
+                .nfpt(user.getNftp())
                 .isArtist(false)
                 .build();
 
