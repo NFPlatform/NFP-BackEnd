@@ -23,6 +23,7 @@ public class UserDTO {
     @AllArgsConstructor
     public static class LoginRequest {
         private String token;
+        private boolean local;
     }
 
     @Setter

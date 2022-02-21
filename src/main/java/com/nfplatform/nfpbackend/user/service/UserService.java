@@ -69,7 +69,7 @@ public class UserService {
         Optional<User> optionalUser = userRepository.findByTokenEquals(loginRequest.getToken());
         User user;
         if (!optionalUser.isPresent()) {
-            KakaoDTO.GetAccessTokenResponse getAccessTokenResponse = kakaoService.getToken(loginRequest.getToken());
+            KakaoDTO.GetAccessTokenResponse getAccessTokenResponse = kakaoService.getToken(loginRequest.getToken(), loginRequest.isLocal());
             KakaoDTO.GetKakaoUserResponse getKakaoUserResponse = kakaoService.getUserInfo(getAccessTokenResponse.getAccess_token());
             Optional<User> optionalUser2 = userRepository.findByKakaoIdEquals(getKakaoUserResponse.getId());
             if (optionalUser2.isPresent()) {

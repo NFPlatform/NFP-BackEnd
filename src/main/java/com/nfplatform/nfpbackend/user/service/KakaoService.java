@@ -18,15 +18,12 @@ public class KakaoService {
     private static final String kakaoAPIHost = "https://kapi.kakao.com";
     private static final String client_id = "be6a45435e2907dfcf8b40d27dd92ffd";
 
-    @Value("${kakao.redirect}")
-    private String redirect_uri;
-
-    public KakaoDTO.GetAccessTokenResponse getToken(String authorize_code) throws Exception {
+    public KakaoDTO.GetAccessTokenResponse getToken(String authorize_code, boolean local) throws Exception {
 
         MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
         map.add("grant_type", "authorization_code");
         map.add("client_id", client_id);
-        map.add("redirect_uri", redirect_uri);
+        map.add("redirect_uri", local ? "http://localhost:3000/oauth" : "https://www.nfplatform.com/oauth");
         map.add("code", authorize_code);
 
         log.info(new ObjectMapper().writeValueAsString(map));
