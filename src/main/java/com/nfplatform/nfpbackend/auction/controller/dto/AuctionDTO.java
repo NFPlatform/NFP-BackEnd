@@ -18,7 +18,8 @@ public class AuctionDTO {
         private UserBadge seller;
         private Long klay;
         private Long nfpToken;
-        private boolean isVote;
+        private Long vote;
+        private boolean userVote;
     }
 
     @Setter
