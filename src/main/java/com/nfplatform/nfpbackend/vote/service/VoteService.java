@@ -31,6 +31,8 @@ public class VoteService {
                 .user(user)
                 .piece(piece)
                 .build();
+        piece.setVote(piece.getVote() + 1);
+        pieceRepository.save(piece);
         voteRepository.save(vote);
     }
 
@@ -42,6 +44,8 @@ public class VoteService {
         Vote vote = voteRepository.findByUserEqualsAndPieceEquals(user, piece)
                 .orElseThrow(Exception::new);
 
+        piece.setVote(piece.getVote() - 1);
+        pieceRepository.save(piece);
         voteRepository.delete(vote);
     }
 

@@ -54,11 +54,9 @@ public class AuctionService {
                 .orElseThrow(Exception::new);
         Piece piece = auction.getPiece();
 
-        long vote = voteService.countVoteOfPiece(piece);
         boolean isVote = voteService.checkIfVote(user, piece);
 
         AuctionDTO.Detail detail = AuctionMapper.entityToDetail(auction);
-        detail.setVote(vote);
         detail.setUserVote(isVote);
         return detail;
     }
