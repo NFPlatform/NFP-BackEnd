@@ -27,7 +27,7 @@ public class SmartTransactionService {
     public void validateBuyTransaction(User user, Long auctionId, SmartTransactionDto.KlipPrepareResponse klipPrepareResponse) throws Exception {
         this.auctionService.validateBuyPiece(user, auctionId);
 
-        LocalDateTime expirationTime = LocalDateTime.ofInstant(Instant.ofEpochMilli(klipPrepareResponse.getTimestamp()), TimeZone.getDefault().toZoneId());
+        LocalDateTime expirationTime = LocalDateTime.ofInstant(Instant.ofEpochSecond(klipPrepareResponse.getTimestamp()), TimeZone.getDefault().toZoneId());
 
         SmartTransaction smartTransaction = SmartTransaction.builder()
                 .requestKey(klipPrepareResponse.getRequestKey())
@@ -41,7 +41,7 @@ public class SmartTransactionService {
     public void validateUploadTransaction(User user, SmartTransactionDto.UploadPieceValidate uploadPieceValidate) throws Exception {
         this.pieceService.validateUploadPiece(user, uploadPieceValidate);
 
-        LocalDateTime expirationTime = LocalDateTime.ofInstant(Instant.ofEpochMilli(uploadPieceValidate.getTimestamp()), TimeZone.getDefault().toZoneId());
+        LocalDateTime expirationTime = LocalDateTime.ofInstant(Instant.ofEpochSecond(uploadPieceValidate.getTimestamp()), TimeZone.getDefault().toZoneId());
 
         SmartTransaction smartTransaction = SmartTransaction.builder()
                 .requestKey(uploadPieceValidate.getRequestKey())
@@ -55,7 +55,7 @@ public class SmartTransactionService {
     public void validateSellTransaction(User user, SmartTransactionDto.SetToSellingValidate setToSellingReq) throws Exception {
         this.pieceService.validateSeToSelling(user, setToSellingReq);
 
-        LocalDateTime expirationTime = LocalDateTime.ofInstant(Instant.ofEpochMilli(setToSellingReq.getTimestamp()), TimeZone.getDefault().toZoneId());
+        LocalDateTime expirationTime = LocalDateTime.ofInstant(Instant.ofEpochSecond(setToSellingReq.getTimestamp()), TimeZone.getDefault().toZoneId());
 
         SmartTransaction smartTransaction = SmartTransaction.builder()
                 .requestKey(setToSellingReq.getRequestKey())
