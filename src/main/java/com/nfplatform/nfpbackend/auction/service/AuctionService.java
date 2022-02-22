@@ -110,4 +110,22 @@ public class AuctionService {
             userRepository.save(seller);
         }
     }
+
+    public void validateBuyPiece(User user, Long auctionId) throws Exception {
+        Auction auction = auctionRepository.findByIdEqualsWithPieceAndUser(auctionId)
+                .orElseThrow(Exception::new);
+
+        if (auction.getStatus().equals(AuctionStatus.SOLD.toString())) {
+            throw new Exception();
+        }
+
+        Piece piece = auction.getPiece();
+        if (piece.getState().equals("Owned")) {
+            throw new Exception();
+        }
+
+        if (auction.getSeller().getId() == user.getId()) {
+            throw new Exception();
+        }
+    }
 }

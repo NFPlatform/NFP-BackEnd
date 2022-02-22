@@ -12,6 +12,7 @@ import com.nfplatform.nfpbackend.auction.repository.entity.Ownership;
 import com.nfplatform.nfpbackend.piece.controller.dto.PieceDTO;
 import com.nfplatform.nfpbackend.piece.repository.PieceRepository;
 import com.nfplatform.nfpbackend.piece.repository.entity.Piece;
+import com.nfplatform.nfpbackend.smart_transaction.controller.dto.SmartTransactionDto;
 import com.nfplatform.nfpbackend.user.repository.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.InputStreamResource;
@@ -75,6 +76,13 @@ public class PieceService {
                 .build();
     }
 
+    public void validateUploadPiece(User user, SmartTransactionDto.UploadPieceValidate uploadPieceValidate) throws Exception {
+        artistRepository.findByUserEquals(user)
+                .orElseThrow(Exception::new);
+        categoryRepository.findByNameEquals(uploadPieceValidate.getCategory())
+                .orElseThrow(Exception::new);
+    }
+
     public ResponseEntity<?> getPieceImg(Long pieceId) throws Exception {
         if (pieceRepository.existsById(pieceId) == false) {
             throw new Exception();
@@ -110,5 +118,15 @@ public class PieceService {
         return PieceDTO.SetToSellingRes.builder()
                 .auctionId(auction.getId())
                 .build();
+    }
+
+    public void validateSeToSelling(User user, SmartTransactionDto.SetToSellingValidate setToSellingValidate) throws Exception {
+        Piece piece = pieceRepository.findById(setToSellingValidate.getPieceId())
+                .orElseThrow(Exception::new);
+        if (piece.getState().equals("Selling")) {
+            throw new Exception();
+        }
+        ownershipRepository.findByPieceEqualsAndOwnerEquals(piece, user)
+                .orElseThrow(Exception::new);
     }
 }
