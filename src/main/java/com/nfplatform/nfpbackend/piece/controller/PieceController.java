@@ -18,12 +18,19 @@ public class PieceController {
     private final PieceService pieceService;
     private final SmartTransactionService smartTransactionService;
 
+//    @PostMapping("/register")
+//    public PieceDTO.RegisterResponse uploadPiece(@ParseUser User user,
+//                                                 @RequestPart("img") MultipartFile img,
+//                                                 @RequestPart("registerForm") PieceDTO.RegisterRequest registerRequest,
+//                                                 @RequestParam(name = "requestKey") String requestKey) throws Exception {
+//        smartTransactionService.validateRequestKey(requestKey, "MINT_WITH_TOKEN_URI");
+//        return pieceService.uploadPiece(user, img, registerRequest);
+//    }
+
     @PostMapping("/register")
     public PieceDTO.RegisterResponse uploadPiece(@ParseUser User user,
                                                  @RequestPart("img") MultipartFile img,
-                                                 @RequestPart("registerForm") PieceDTO.RegisterRequest registerRequest,
-                                                 @RequestParam(name = "requestKey") String requestKey) throws Exception {
-        smartTransactionService.validateRequestKey(requestKey, "MINT_WITH_TOKEN_URI");
+                                                 @RequestPart("registerForm") PieceDTO.RegisterRequest registerRequest) throws Exception {
         return pieceService.uploadPiece(user, img, registerRequest);
     }
 
