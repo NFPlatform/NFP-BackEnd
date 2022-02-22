@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(
-        name = "smart-transaction"
+        name = "smart_transaction"
 )
 @Getter
 @Setter
