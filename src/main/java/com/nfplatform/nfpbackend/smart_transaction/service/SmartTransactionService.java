@@ -11,7 +11,9 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.sql.Timestamp;
+import java.time.Instant;
 import java.time.LocalDateTime;
+import java.util.TimeZone;
 
 @Service
 @RequiredArgsConstructor
@@ -25,9 +27,11 @@ public class SmartTransactionService {
     public void validateBuyTransaction(User user, Long auctionId, SmartTransactionDto.KlipPrepareResponse klipPrepareResponse) throws Exception {
         this.auctionService.validateBuyPiece(user, auctionId);
 
+        LocalDateTime expirationTime = LocalDateTime.ofInstant(Instant.ofEpochMilli(klipPrepareResponse.getTimestamp()), TimeZone.getDefault().toZoneId());
+
         SmartTransaction smartTransaction = SmartTransaction.builder()
                 .requestKey(klipPrepareResponse.getRequestKey())
-                .expirationTime(LocalDateTime.now().plusSeconds(klipPrepareResponse.getTimestamp()))
+                .expirationTime(expirationTime)
                 .type("BUY_NFT")
                 .status("Waiting")
                 .build();
@@ -37,9 +41,11 @@ public class SmartTransactionService {
     public void validateUploadTransaction(User user, SmartTransactionDto.UploadPieceValidate uploadPieceValidate) throws Exception {
         this.pieceService.validateUploadPiece(user, uploadPieceValidate);
 
+        LocalDateTime expirationTime = LocalDateTime.ofInstant(Instant.ofEpochMilli(uploadPieceValidate.getTimestamp()), TimeZone.getDefault().toZoneId());
+
         SmartTransaction smartTransaction = SmartTransaction.builder()
                 .requestKey(uploadPieceValidate.getRequestKey())
-                .expirationTime(LocalDateTime.now().plusSeconds(uploadPieceValidate.getTimestamp()))
+                .expirationTime(expirationTime)
                 .type("MINT_WITH_TOKEN_URI")
                 .status("Waiting")
                 .build();
@@ -49,9 +55,11 @@ public class SmartTransactionService {
     public void validateSellTransaction(User user, SmartTransactionDto.SetToSellingValidate setToSellingReq) throws Exception {
         this.pieceService.validateSeToSelling(user, setToSellingReq);
 
+        LocalDateTime expirationTime = LocalDateTime.ofInstant(Instant.ofEpochMilli(setToSellingReq.getTimestamp()), TimeZone.getDefault().toZoneId());
+
         SmartTransaction smartTransaction = SmartTransaction.builder()
                 .requestKey(setToSellingReq.getRequestKey())
-                .expirationTime(LocalDateTime.now().plusSeconds(setToSellingReq.getTimestamp()))
+                .expirationTime(expirationTime)
                 .type("SAFE_TRANSFER_FROM")
                 .status("Waiting")
                 .build();
