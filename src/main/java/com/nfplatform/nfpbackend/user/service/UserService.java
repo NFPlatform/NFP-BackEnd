@@ -78,7 +78,7 @@ public class UserService {
                 user = User.builder()
                         .kakaoId(getKakaoUserResponse.getId())
                         .token(loginRequest.getToken())
-                        .name("Unknown")
+                        .name("WEMIX 해커톤")
                         .klay(0L)
                         .nftp(0L)
                         .build();
@@ -123,7 +123,7 @@ public class UserService {
         User user = userRepository.findById(userId).orElseThrow(Exception::new);
 
         if (!user.isSetImg()) {
-            ClassPathResource classPathResource = new ClassPathResource("nfp_logo.png");
+            ClassPathResource classPathResource = new ClassPathResource("icon_profile.png");
             Resource resource = new InputStreamResource(classPathResource.getInputStream());
 
             HttpHeaders headers = new HttpHeaders();
