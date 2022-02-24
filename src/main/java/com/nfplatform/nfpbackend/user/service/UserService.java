@@ -130,7 +130,7 @@ public class UserService {
 
             return new ResponseEntity<>(resource, headers, HttpStatus.OK);
         } else {
-            Path piecePath = Paths.get(UserService.BASE_PATH + "/" + userId);
+            Path piecePath = Paths.get(UserService.BASE_PATH + "/" + userId + ".PNG");
             String contentType = Files.probeContentType(piecePath);
 
             HttpHeaders headers = new HttpHeaders();
